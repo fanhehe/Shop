@@ -19,8 +19,8 @@
 ## 使用方式
 
 区分环境的两个运行命令：
-
 `mvn spring-boot:run -Dspring-boot.run.profiles=dev`
+
 `mvn spring-boot:run -Dspring-boot.run.profiles=prod`
 
 ## Change Logs
