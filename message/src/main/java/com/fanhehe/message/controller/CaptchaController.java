@@ -1,10 +1,11 @@
 package com.fanhehe.message.controller;
 
-import java.util.HashMap;
+import com.fanhehe.message.util.Regexp;
 import com.fanhehe.message.util.IResult;
-import com.fanhehe.message.dto.bind.Bind;
-import com.fanhehe.message.constant.BindEnum;
-import com.fanhehe.message.service.BindService;
+import com.fanhehe.message.dto.Receiver;
+import com.fanhehe.message.model.CaptchaCode;
+import com.fanhehe.message.util.InvokeResult;
+import com.fanhehe.message.constant.ReceiverType;
 import com.fanhehe.message.service.CaptchaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,38 +17,60 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 public class CaptchaController {
 
-    BindService bindService;
-    CaptchaService captchaService;
+    private CaptchaService captchaService;
 
     @Autowired
-    @Qualifier("Impl.Common.BindService")
-    public void setBindService(BindService bindService) {
-        this.bindService = bindService;
-    }
-
-    @Autowired
+    @Qualifier("Impl.EmailCaptchaService")
     public void setCaptchaService(CaptchaService captchaService) {
         this.captchaService = captchaService;
     }
 
     @RequestMapping(value = "/api/message/captcha/email/send", method = RequestMethod.GET)
-    public IResult<Bind> sendCaptchaByEmail(
-            @RequestParam(defaultValue = "") int uid,
+    public IResult<CaptchaCode> sendCaptchaByEmail(
             @RequestParam(defaultValue = "") String email,
             @RequestParam(defaultValue = "") String app,
-            @RequestParam(defaultValue = "") String orderId,
-            @RequestParam HashMap<String, String> options
+            @RequestParam(defaultValue = "") String orderId
     ) {
-        return bindService
-                .getBindByUid(uid, BindEnum.EMAIL);
+        if (!Regexp.isEmail(email)) {
+            return InvokeResult.failure("非法email");
+        }
+
+        if (app == null || orderId == null || "".equals(app) || "".equals(orderId)) {
+            return InvokeResult.failure("app / orderId 不能为空");
+        }
+
+        Receiver receiver = new Receiver();
+
+        receiver.setTarget(email);
+        receiver.setReceiverType(ReceiverType.EMAIL);
+
+        CaptchaCode captchaCode = new CaptchaCode();
+
+        captchaCode.setApp(app);
+        captchaCode.setTarget(email);
+        captchaCode.setOrderId(orderId);
+
+        return captchaService.send(receiver, captchaCode);
     }
 
     @RequestMapping(value = "/api/message/captcha/email/verify", method = RequestMethod.GET)
-    public void verifyCaptchaByEmail(
+    public IResult<CaptchaCode> verifyCaptchaByEmail(
+            @RequestParam(defaultValue = "") String app,
             @RequestParam(defaultValue = "") String email,
-            @RequestParam(defaultValue = "") String captcha,
-            @RequestParam HashMap<String, String> options
+            @RequestParam(defaultValue = "") String captcha
     ) {
 
+        Receiver receiver = new Receiver();
+
+        receiver.setTarget(email);
+        receiver.setReceiverType(ReceiverType.EMAIL);
+
+        CaptchaCode captchaCode = new CaptchaCode();
+
+        captchaCode.setApp(app);
+        captchaCode.setTarget(email);
+        captchaCode.setCode(captcha);
+
+        return captchaService.verify(receiver, captchaCode);
     }
 }

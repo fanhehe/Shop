@@ -3,6 +3,8 @@ package com.fanhehe.message.model;
 
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Column;
+
 @Repository
 public class CaptchaCode {
 
@@ -20,14 +22,6 @@ public class CaptchaCode {
 
     public void setUid(int uid) {
         this.uid = uid;
-    }
-
-    public int getAuth() {
-        return auth;
-    }
-
-    public void setAuth(int auth) {
-        this.auth = auth;
     }
 
     public String getApp() {
@@ -86,31 +80,40 @@ public class CaptchaCode {
         this.updatedAt = updatedAt;
     }
 
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
     private int id;
     private int uid;
-    private int auth;
     private String app;
+    @Column(name = "order_id")
     private String orderId;
-
+    private String target;
     private int overtime;
     private String code;
     private int status;
+    @Column(name = "created_at")
     private int createdAt;
+    @Column(name = "updated_at")
     private int updatedAt;
 }
 
 //    CREATE TABLE `captcha_code` (
 //        `id` int(4) NOT NULL AUTO_INCREMENT COMMENT 'id',
-//        `uid` int(4) NOT NULL COMMENT '牛牛号',
-//        `auth` int(4) NOT NULL COMMENT 'auth.id',
+//        `uid` int(4) NOT NULL DEFAULT 0 COMMENT '牛牛号',
+//        `target` varchar(40) DEFAULT '' COMMENT '发给谁',
 //        `app` varchar(40) DEFAULT '' COMMENT '类别',
-//        `orderId` varchar(40) NOT NULL COMMENT '最终使用的订单号',
+//        `order_id` varchar(40) NOT NULL COMMENT '最终使用的订单号',
 //        `overtime` int(4) DEFAULT '300' COMMENT '邮件验证码的有效时间，单位秒, 写于发消息时的配置',
-//        `code` varchar(40) NOT NULL COMMENT '发送的消息验证码信息',
-//        `status` tinyint(1) DEFAULT '1' COMMENT '发送状态1: 发送中，2: 发送完成, 其他均为失败',
-//        `createdAt` int(4) DEFAULT '0' COMMENT '创建记录时间',
-//        `updatedAt` int(4) DEFAULT '0' COMMENT '更新记录时间',
+//        `code` varchar(40) NOT NULL COMMENT '发送的消息验证码',
+//        `status` tinyint(1) DEFAULT '1' COMMENT '发送状态1: 初始化 2: 发送中，3: 发送完成, 4失败',
+//        `created_at` int(4) DEFAULT '0' COMMENT '创建记录时间',
+//        `updated_at` int(4) DEFAULT '0' COMMENT '更新记录时间',
 //        PRIMARY KEY (`id`),
-//        UNIQUE KEY `orderId` (`orderId`),
-//        KEY `idx_uid_atuh_code` (`auth`,`code`,`status`,`app`)
-//        ) ENGINE=InnoDB AUTO_INCREMENT=607 DEFAULT CHARSET=utf8 COMMENT='验证码 验证码表'
+//        UNIQUE KEY `orderId` (`app`, `order_id`)
+//        ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='验证码 验证码表';
