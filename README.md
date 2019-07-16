@@ -2,7 +2,7 @@
 
 本项目会从零开始一个商店系统。
 
-商店系统，包括：`前端站点`， `后端接入服务`, `用户服务`, `消息服务`, `库存服务`, `订单服务`, `积分服务` 。
+商店系统，包括：`前端站点`、`后端接入服务`、`用户服务`、`消息服务`、`库存服务`、`订单服务`、`积分服务` 。
 
 ## 架构
 
@@ -38,8 +38,8 @@
 ## 启动方式
 
 - 项目依赖(默认配置)
-    - redis: `redis-cli -h 127.0.0.1 -p 6379`
-    - mysql: `mysql -h 127.0.0.1 -P 3306 -u root -p`
+    - `redis-cli -h 127.0.0.1 -p 6379`
+    - `mysql -h 127.0.0.1 -P 3306 -u root -p`
         
 > 项目根目录提供`main.script` 进行初始化，主要是建表(均使用如上的默认配置)。
 
@@ -55,10 +55,10 @@
 
 - [ ] 项目架构图。
 - [ ] 建立公测环境。
-- [ ] 项目README说明。
+- [x] 项目README说明。
 - [ ] 建立代码格式规范。
-- [ ] 建立Http通用组件。
-- [ ] 建立项目标准Result，用于规范服务调用的request/response内容格式。
+- [x] 建立Http通用组件。
+- [x] 建立项目标准Result，用于规范服务调用的request/response内容格式。
 
 ### user: 用户信息服务
 
@@ -133,32 +133,29 @@
 
 ## 更新日志
 
-```
 - 今日目标
-    - 开始做前端站点，希望能支持上注册、登录页面。
-    - 完成 `https://juejin.im/post/5d2b3f2d6fb9a07f091bd1d5` 系列第二篇。
-    
+
+    1. 开始做前端站点，希望能支持上注册、登录页面。
+    2. 完成 `https://juejin.im/post/5d2b3f2d6fb9a07f091bd1d5` 系列第二篇。
 
 - 2019-07-16 :
-    - 重写本README以及ShopUtil的README文档。
-    - 将所有子项目的调用规范均改为以`Result`接口为标准。
-    - 确认跑通`Email验证码`、`Email注册`, `Uid及密码登录`功能。
+    
+    1. 重写本README以及ShopUtil的README文档。
+    2. 将所有子项目的调用规范均改为以`Result`接口为标准。
+    3. 确认跑通`Email验证码`、`Email注册`, `Uid及密码登录`功能。
 
 - 2019-07-15 : 
-    - 建立 [ShopUtil组件](https://github.com/fanhehe/ShopUtil) 作为所有服务的基础支持。
-        - 建立统一的服务接口标准`Result`。
-        - 基于`httpclient fluent-hc`，封装符合业务需求的通用Http组件。
-        - 基于[jitpack.io](https://jitpack.io/)，作为工具包的发布工具。
-    - 以DB方式，接入`Spring Security`，并进行用户注册登录及会话管理。
-        - DB方式重写`AbstractUserDetailsAuthenticationProvider`，进行加密、验证、授权管理。
-        
-- 2019-07-14
-    - 第一个提交
     
-- 2019-07-11 
-    - 产生了这个想法
-
-```
+    1. 建立 [ShopUtil组件](https://github.com/fanhehe/ShopUtil) 作为所有服务的基础支持。
+        1.1 建立统一的服务接口标准`Result`。
+        1.2 基于`httpclient fluent-hc`，封装符合业务需求的通用Http组件。
+        1.3 基于[jitpack.io](https://jitpack.io/)，作为工具包的发布工具。
+    2 以DB方式，接入`Spring Security`，并进行用户注册登录及会话管理。
+        2.1 DB方式重写`AbstractUserDetailsAuthenticationProvider`，进行加密、验证、授权管理。
+        
+- 2019-07-14 : 第一个提交
+    
+- 2019-07-11 : 产生了这个想法
 
 > 每晚更新本本部分日志
 
