@@ -39,13 +39,14 @@
 
 ## 启动方式
 
-- 目前项目依赖
-    - redis(默认): `redis-cli -h 127.0.0.1 -p 6379`
-    - mysql(默认): `mysql -h 127.0.0.1 -P 3306 -u root -p`
+- 项目依赖(默认配置)
+    - redis: `redis-cli -h 127.0.0.1 -p 6379`
+    - mysql: `mysql -h 127.0.0.1 -P 3306 -u root -p`
         
 > 项目根目录提供`main.script` 进行初始化，主要是建表(均使用如上的默认配置)。
 
-- 之后便是进入每一个子Module，选择执行如下命令即可：
+
+之后便是进入每一个子Module，选择执行如下命令即可：
 
 - 环境
     - 开发环境：`mvn spring-boot:run -Dspring-boot.run.profiles=dev`
@@ -131,7 +132,7 @@
 ## 更新日志
 
 - 2019-07-15 : 
-    - 建立**[ShopUtil](https://github.com/fanhehe/ShopUtil)**组件作为所有服务的基础支持。
+    - 建立 [ShopUtil组件](https://github.com/fanhehe/ShopUtil) 作为所有服务的基础支持。
         - 建立统一的服务接口标准`Result`。
         - 基于`httpclient fluent-hc`，封装符合业务需求的通用Http组件。
         - 基于[jitpack.io](https://jitpack.io/)，作为工具包的发布工具。
