@@ -1,10 +1,10 @@
 package com.fanhehe.user.controller;
 
-import com.fanhehe.user.constant.BindEnum;
 import com.fanhehe.user.model.Bind;
+import com.fanhehe.util.result.IResult;
+import com.fanhehe.user.constant.BindEnum;
+import com.fanhehe.util.result.InvokeResult;
 import com.fanhehe.user.service.BindService;
-import com.fanhehe.user.util.IResult;
-import com.fanhehe.user.util.InvokeResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;

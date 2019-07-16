@@ -3,6 +3,7 @@ package com.fanhehe.user.dao;
 import com.fanhehe.user.model.User;
 
 import org.apache.ibatis.annotations.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Mapper
@@ -16,11 +17,12 @@ public interface UserDao {
     Integer findMaxUid();
 
     @SelectKey(statement = "select last_insert_id()", keyProperty = "uid", before = false, resultType = Integer.class)
-    @Insert("insert into user (uid, nick, avatar, password, createdAt, updatedAt) values (#{uid}, #{nick}, #{avatar}, #{password}, #{createdAt}, #{updatedAt})")
+    @Insert("insert into user (uid, nick, avatar, salt, password, createdAt, updatedAt) values (#{uid}, #{nick}, #{avatar}, #{salt}, #{password}, #{createdAt}, #{updatedAt})")
     Integer createUser(
             @Param("uid") int uid,
             @Param("nick") String nick,
             @Param("avatar") String avatar,
+            @Param("salt") String salt,
             @Param("password") String password,
             @Param("createdAt") int createdAt,
             @Param("updatedAt") int updatedAt);

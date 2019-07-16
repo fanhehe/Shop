@@ -1,16 +1,13 @@
 package com.fanhehe.user.service.impl;
 
-
-import java.time.Instant;
 import java.util.HashMap;
-import javax.annotation.Resource;
-
-import com.fanhehe.user.dao.UserDao;
-import com.fanhehe.user.model.User;
-import com.fanhehe.user.service.UserService;
-import com.fanhehe.user.constant.BindEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import javax.annotation.Resource;
+import com.fanhehe.user.dao.UserDao;
+import com.fanhehe.user.model.User;
+import com.fanhehe.user.constant.BindEnum;
+import com.fanhehe.user.service.UserService;
 import org.springframework.stereotype.Service;
 
 

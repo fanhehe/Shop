@@ -1,6 +1,11 @@
 package com.fanhehe.user.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * 用户表
@@ -60,13 +65,23 @@ public class User {
         return updatedAt;
     }
 
-    public void setUpdatedAt(int updatedAt) {
+    public void setUpdatedAt(int updatedAt)
+    {
         this.updatedAt = updatedAt;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     private int id;
     private int uid;
 
+    private String salt;
     private String nick;
     private String avatar;
     private String password;
@@ -80,7 +95,8 @@ public class User {
 //        `uid` int(4) NOT NULL COMMENT '用户ID',
 //        `nick` varchar(128) NOT NULL COMMENT '用户昵称',
 //        `avatar` varchar(128) DEFAULT '0' COMMENT '用户头像',
-//        `password` varchar(32) DEFAULT '0' COMMENT '用户密码',
+//        `salt` varchar(32) DEFAULT '' COMMENT '用户加密的盐',
+//        `password` varchar(64) DEFAULT '' COMMENT '用户密码',
 //        `createdAt` int(4) DEFAULT '0' COMMENT '创建记录时间',
 //        `updatedAt` int(4) DEFAULT '0' COMMENT '更新记录时间',
 //        PRIMARY KEY (`id`),

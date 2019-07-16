@@ -1,27 +1,49 @@
 package com.fanhehe.user.config;
 
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.builders.WebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.web.csrf.CsrfFilter;
-//import org.springframework.web.filter.CharacterEncodingFilter;
-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 
-//@Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity
-//public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Override
-//    public void configure(WebSecurity ws) {
-//        ws.ignoring().antMatchers("/**");
-//    }
+    private UserDetailsService userDetailsService;
+    private AuthenticationProvider authenticationProvider;
+
+
+    @Autowired
+    @Qualifier("Common.CustomUserDetailsService")
+    public void setUserDetailsService(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Autowired
+    @Qualifier("Custom.DaoAuthenticationProvider")
+    public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
+        this.authenticationProvider = authenticationProvider;
+    }
+
+    @Override
+    public void configure(WebSecurity ws) {
+        ws.ignoring().
+                antMatchers(
+                        "/**/*.js",
+                        "/lang/*.json",
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/**/*.map",
+                        "/**/*.html",
+                        "/**/*.png");
+    }
 //
 //    @Bean
 //    @Override
@@ -47,24 +69,21 @@ package com.fanhehe.user.config;
 //                //退出登录后的默认url是"/login"
 //                .logoutSuccessUrl("/login")
 //                .permitAll();
-//        //解决非thymeleaf的form表单提交被拦截问题
-//        http.csrf().disable();
-//
 //
 //        //解决中文乱码问题
 //        CharacterEncodingFilter filter = new CharacterEncodingFilter();
 //        filter.setEncoding("UTF-8");
 //        filter.setForceEncoding(true);
-//        http.addFilterBefore(filter,CsrfFilter.class);
+//        http.addFilterBefore(filter, CsrfFilter.class);
 //    }
 //
+
 //    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("111111")
-//                .roles("USER");
-//    }
-//}
-public class SecurityConfig {}
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication().withUser("fanhehe").password("fanhehe").roles("USER");
+        auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(authenticationProvider);
+    }
+}
+
+//public class SecurityConfig {}

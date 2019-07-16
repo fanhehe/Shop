@@ -2,6 +2,7 @@ package com.fanhehe.user.dao;
 
 import com.fanhehe.user.model.Bind;
 import org.apache.ibatis.annotations.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Mapper

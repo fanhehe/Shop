@@ -1,21 +1,23 @@
 package com.fanhehe.user.service.impl;
 
-import java.time.Instant;
+import org.slf4j.Logger;
 import java.util.HashMap;
 import java.util.Optional;
-import com.fanhehe.user.dao.UserDao;
+import org.slf4j.LoggerFactory;
 import com.fanhehe.user.model.User;
+import com.fanhehe.user.dao.UserDao;
+import com.fanhehe.user.util.Time;
+import com.fanhehe.user.util.Crypto;
+import com.fanhehe.util.result.IResult;
 import com.fanhehe.user.constant.BindEnum;
+import com.fanhehe.util.result.InvokeResult;
+import com.fanhehe.user.service.UserService;
 import com.fanhehe.user.service.BindService;
 import com.fanhehe.user.service.HandleUserService;
-import com.fanhehe.user.service.UserService;
-import com.fanhehe.user.util.IResult;
-import com.fanhehe.user.util.InvokeResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+
 
 @Service("Impl.UserService")
 public class UserServiceImpl extends AbstractUserService implements HandleUserService<User> {
@@ -45,7 +47,6 @@ public class UserServiceImpl extends AbstractUserService implements HandleUserSe
     public boolean checkBindUsed(String target, BindEnum bindEnum) {
         return bindService.existBindByOpenidAndType(target, bindEnum.getValue());
     }
-
     public IResult<User> handleMakeNewUser(String target, String password, BindEnum bindType, HashMap<String, String> options)  {
 
         User user;
@@ -74,13 +75,17 @@ public class UserServiceImpl extends AbstractUserService implements HandleUserSe
 
     public User commonCreateUser(String target, String password, BindEnum bindType, HashMap<String, String> options) {
 
+        String saltFromDB = "";
+        String saltFromRedis = "";
+
+        int instant = Time.makeUnixTimestamp();
         int uid = userFactoryService.createUid();
         String nick = userFactoryService.createNick();
         String avatar = userFactoryService.createAvatar();
-        String hashedPassword = password + "";
-        int instant = (int)(Instant.now().toEpochMilli() / 1000);
 
-        userDao.createUser(uid, nick, avatar, hashedPassword, instant, instant);
+        String hashedPassword = Crypto.makePassword(password, saltFromDB, saltFromRedis);
+
+        userDao.createUser(uid, nick, avatar, saltFromDB, hashedPassword, instant, instant);
 
         return findUserByUid(uid);
     }
