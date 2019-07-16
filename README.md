@@ -141,7 +141,9 @@
 - 2019-07-16 :
     
     1. 重写本README以及ShopUtil的README文档。
+    
     2. 将所有子项目的调用规范均改为以`Result`接口为标准。
+    
     3. 确认跑通`Email验证码`、`Email注册`, `Uid及密码登录`功能。
 
 - 2019-07-15 : 
@@ -149,7 +151,9 @@
     1. 建立 [ShopUtil组件](https://github.com/fanhehe/ShopUtil) 作为所有服务的基础支持。
     
         1.1 建立统一的服务接口标准`Result`。
+        
         1.2 基于`httpclient fluent-hc`，封装符合业务需求的通用Http组件。
+        
         1.3 基于[jitpack.io](https://jitpack.io/)，作为工具包的发布工具。
         
     2. 以DB方式，接入`Spring Security`，并进行用户注册登录及会话管理。
