@@ -2,7 +2,7 @@ package com.fanhehe.message.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.fanhehe.message.util.IResult;
+import com.fanhehe.util.result.IResult;
 import com.fanhehe.message.model.Message;
 import com.fanhehe.message.service.EmailMessageService;
 import org.springframework.beans.factory.annotation.Autowired;

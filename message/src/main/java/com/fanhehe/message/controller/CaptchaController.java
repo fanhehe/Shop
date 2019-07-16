@@ -1,12 +1,12 @@
 package com.fanhehe.message.controller;
 
 import com.fanhehe.message.util.Regexp;
-import com.fanhehe.message.util.IResult;
 import com.fanhehe.message.dto.Receiver;
 import com.fanhehe.message.model.CaptchaCode;
-import com.fanhehe.message.util.InvokeResult;
 import com.fanhehe.message.constant.ReceiverType;
 import com.fanhehe.message.service.CaptchaService;
+import com.fanhehe.util.result.IResult;
+import com.fanhehe.util.result.InvokeResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +25,7 @@ public class CaptchaController {
         this.captchaService = captchaService;
     }
 
-    @RequestMapping(value = "/api/message/captcha/email/send", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/message/captcha/email/send", method = RequestMethod.POST)
     public IResult<CaptchaCode> sendCaptchaByEmail(
             @RequestParam(defaultValue = "") String email,
             @RequestParam(defaultValue = "") String app,
@@ -53,7 +53,7 @@ public class CaptchaController {
         return captchaService.send(receiver, captchaCode);
     }
 
-    @RequestMapping(value = "/api/message/captcha/email/verify", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/message/captcha/email/verify", method = RequestMethod.POST)
     public IResult<CaptchaCode> verifyCaptchaByEmail(
             @RequestParam(defaultValue = "") String app,
             @RequestParam(defaultValue = "") String email,

@@ -10,6 +10,13 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
 	<groupId>com.fanhehe.shop</groupId>
 	<artifactId>message</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -21,6 +28,13 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.github.fanhehe</groupId>
+			<artifactId>ShopUtil</artifactId>
+			<version>51fcd62be4</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

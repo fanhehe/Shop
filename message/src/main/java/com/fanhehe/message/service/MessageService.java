@@ -1,13 +1,14 @@
 package com.fanhehe.message.service;
 
 import java.util.HashMap;
-import com.fanhehe.message.util.IResult;
+import com.fanhehe.util.result.IResult;
 import com.fanhehe.message.dto.Receiver;
 import com.fanhehe.message.model.Message;
 import com.fanhehe.message.dto.BaseMessage;
+import javax.validation.constraints.NotNull;
 import com.fanhehe.message.constant.ReceiverType;
 import com.fanhehe.message.constant.MessageCategory;
-import javax.validation.constraints.NotNull;
+
 
 public interface MessageService<T extends BaseMessage> {
     /**

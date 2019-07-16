@@ -1,8 +1,8 @@
 package com.fanhehe.message.service;
 
-import com.fanhehe.message.constant.BindEnum;
+import com.fanhehe.util.result.IResult;
 import com.fanhehe.message.dto.bind.Bind;
-import com.fanhehe.message.util.IResult;
+import com.fanhehe.message.constant.BindEnum;
 
 public interface BindService {
 

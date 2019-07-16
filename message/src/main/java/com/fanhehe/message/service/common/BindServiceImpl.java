@@ -1,19 +1,18 @@
 package com.fanhehe.message.service.common;
 
 import java.util.HashMap;
+import com.fanhehe.util.http.HttpUtil;
+import com.fanhehe.util.result.IResult;
 import com.fanhehe.message.dto.bind.Bind;
-import com.fanhehe.message.util.IResult;
-import com.fanhehe.message.util.HttpUtil;
 import com.fanhehe.message.constant.BindEnum;
 import com.fanhehe.message.service.BindService;
-import com.fanhehe.message.constant.ServiceEnum;
 import org.springframework.stereotype.Service;
 
 @Service("Impl.Common.BindService")
 public class BindServiceImpl extends HttpUtil<Bind> implements BindService {
 
-    public ServiceEnum cmlb() {
-        return ServiceEnum.User;
+    public String getEndpoint() {
+        return "127.0.0.1:10014";
     }
 
     public IResult<Bind> getBindByUid(int uid, BindEnum bindEnum) {

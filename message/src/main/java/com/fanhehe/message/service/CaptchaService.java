@@ -1,7 +1,7 @@
 package com.fanhehe.message.service;
 
+import com.fanhehe.util.result.IResult;
 import com.fanhehe.message.dto.Receiver;
-import com.fanhehe.message.util.IResult;
 
 public interface CaptchaService<T> {
 

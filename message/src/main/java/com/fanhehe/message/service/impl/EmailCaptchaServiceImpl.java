@@ -13,6 +13,8 @@ import com.fanhehe.message.model.Message;
 import com.fanhehe.message.service.BindService;
 import com.fanhehe.message.service.CaptchaService;
 import com.fanhehe.message.service.EmailMessageService;
+import com.fanhehe.util.result.IResult;
+import com.fanhehe.util.result.InvokeResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -59,7 +61,7 @@ public class EmailCaptchaServiceImpl implements CaptchaService<CaptchaCode> {
             return InvokeResult.success();
         }
 
-        return InvokeResult.failure("存在记录");
+        return InvokeResult.failure("已发送成功");
     }
 
     @Override
@@ -135,10 +137,18 @@ public class EmailCaptchaServiceImpl implements CaptchaService<CaptchaCode> {
 
         CaptchaCode result = captchaCodeDao.selectLatest(captchaCode.getApp(), receiver.getTarget());
 
-        if (result != null && result.getCode().equals(captchaCode.getCode())) {
+        if (result == null) {
+            return  InvokeResult.failure("验证码不正确");
+        }
+
+        if (result.getOvertime() + result.getCreatedAt() < Time.makeUnixTimestamp()) {
+            return InvokeResult.failure("验证码已失效");
+        }
+
+        if (result.getCode().equals(captchaCode.getCode())) {
             return InvokeResult.success(result);
         }
 
-        return InvokeResult.failure("验证码错误");
+        return InvokeResult.failure("验证码不正确");
     }
 }

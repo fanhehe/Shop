@@ -1,6 +1,9 @@
 package com.fanhehe.message.service.impl;
 
 import java.util.HashMap;
+import com.fanhehe.message.util.Time;
+import com.fanhehe.util.result.IResult;
+import com.fanhehe.util.result.InvokeResult;
 import com.fanhehe.message.constant.MessageCategory;
 import com.fanhehe.message.constant.MessageStatus;
 import com.fanhehe.message.constant.ReceiverType;
@@ -9,9 +12,6 @@ import com.fanhehe.message.dto.EmailMessage;
 import com.fanhehe.message.dto.Receiver;
 import com.fanhehe.message.model.Message;
 import com.fanhehe.message.service.EmailMessageService;
-import com.fanhehe.message.util.IResult;
-import com.fanhehe.message.util.InvokeResult;
-import com.fanhehe.message.util.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -49,8 +49,8 @@ public class EmailMessageServiceImpl implements EmailMessageService {
     ) {
 
         Integer uid = 0;
-        String target = receiver.getTarget();
         String app = message.getApp();
+        String target = receiver.getTarget();
         String orderId = message.getOrderId();
 
         switch(receiver.getReceiverType()) {
