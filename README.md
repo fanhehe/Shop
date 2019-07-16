@@ -150,13 +150,13 @@
         1.1 建立统一的服务接口标准`Result`。
         1.2 基于`httpclient fluent-hc`，封装符合业务需求的通用Http组件。
         1.3 基于[jitpack.io](https://jitpack.io/)，作为工具包的发布工具。
-    2 以DB方式，接入`Spring Security`，并进行用户注册登录及会话管理。
+    2. 以DB方式，接入`Spring Security`，并进行用户注册登录及会话管理。
         2.1 DB方式重写`AbstractUserDetailsAuthenticationProvider`，进行加密、验证、授权管理。
         
 - 2019-07-14 : 第一个提交
     
 - 2019-07-11 : 产生了这个想法
 
-> 每晚更新本本部分日志
+> 争取每晚更新本本部分日志~
 
 > 求杭州的Java坑，直到本条信息消失~
