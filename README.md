@@ -10,7 +10,7 @@
 
 -------------------
 
-![假装有张架构图](http://puqdcldzi.bkt.clouddn.com/master.png)
+![假装有张架构图](http://puqdcldzi.bkt.clouddn.com/new_master.png)
 
 ## 要求
 
