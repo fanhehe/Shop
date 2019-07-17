@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 @Service("Impl.CaptchaService")
 public class CaptchaServiceImpl extends HttpUtil<CaptchaCode> implements CaptchaService {
 
-    @Value("${com.fanhehe.service.message}")
+    @Value("${com.fanhehe.module.message}")
     private String EMAIL_SERVICE;
 
     @Override

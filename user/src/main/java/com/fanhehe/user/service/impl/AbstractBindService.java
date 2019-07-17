@@ -1,11 +1,11 @@
 package com.fanhehe.user.service.impl;
 
-import com.fanhehe.user.constant.BindEnum;
-import com.fanhehe.user.dao.BindDao;
-import com.fanhehe.user.dao.BindHistoryDao;
-import com.fanhehe.user.model.Bind;
-import com.fanhehe.user.service.BindService;
 import com.fanhehe.user.util.Time;
+import com.fanhehe.user.model.Bind;
+import com.fanhehe.user.dao.BindDao;
+import com.fanhehe.user.constant.BindEnum;
+import com.fanhehe.user.dao.BindHistoryDao;
+import com.fanhehe.user.service.BindService;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 

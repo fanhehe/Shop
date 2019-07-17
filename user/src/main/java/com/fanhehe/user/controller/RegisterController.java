@@ -108,9 +108,9 @@ public class RegisterController {
         String now = Instant
                 .now()
                 .atZone(ZoneId.of(zone))
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd-H:mm"));
+                .format(DateTimeFormatter.ofPattern("yyyy_MM_dd_H_mm"));
 
-        String orderId = Crypto.md5(now + email);
+        String orderId = String.join("_", now, Crypto.md5(email));
 
         return captchaService.sendEmailCaptcha(email, orderId);
     }
