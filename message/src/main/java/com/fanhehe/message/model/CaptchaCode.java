@@ -104,16 +104,17 @@ public class CaptchaCode {
 }
 
 //    CREATE TABLE `captcha_code` (
-//        `id` int(4) NOT NULL AUTO_INCREMENT COMMENT 'id',
-//        `uid` int(4) NOT NULL DEFAULT 0 COMMENT '牛牛号',
-//        `target` varchar(40) DEFAULT '' COMMENT '发给谁',
-//        `app` varchar(40) DEFAULT '' COMMENT '类别',
-//        `order_id` varchar(40) NOT NULL COMMENT '最终使用的订单号',
-//        `overtime` int(4) DEFAULT '300' COMMENT '邮件验证码的有效时间，单位秒, 写于发消息时的配置',
-//        `code` varchar(40) NOT NULL COMMENT '发送的消息验证码',
-//        `status` tinyint(1) DEFAULT '1' COMMENT '发送状态1: 初始化 2: 发送中，3: 发送完成, 4失败',
-//        `created_at` int(4) DEFAULT '0' COMMENT '创建记录时间',
-//        `updated_at` int(4) DEFAULT '0' COMMENT '更新记录时间',
-//        PRIMARY KEY (`id`),
-//        UNIQUE KEY `orderId` (`app`, `order_id`)
-//        ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='验证码 验证码表';
+//    `id` int(4) NOT NULL AUTO_INCREMENT COMMENT 'id',
+//    `uid` int(4) NOT NULL DEFAULT '0' COMMENT '牛牛号',
+//    `target` varchar(40) DEFAULT '' COMMENT '发给谁',
+//    `app` varchar(40) DEFAULT '' COMMENT '类别',
+//    `order_id` varchar(40) NOT NULL COMMENT '最终使用的订单号',
+//    `overtime` int(4) DEFAULT '300' COMMENT '邮件验证码的有效时间，单位秒, 写于发消息时的配置',
+//    `code` varchar(40) NOT NULL COMMENT '发送的消息验证码信息',
+//    `status` tinyint(1) DEFAULT '1' COMMENT '发送状态1:初始状态, 2: 发送中，3: 发送完成,3 or其他均为失败',
+//    `created_at` int(4) DEFAULT '0' COMMENT '创建记录时间',
+//    `updated_at` int(4) DEFAULT '0' COMMENT '更新记录时间',
+//    PRIMARY KEY (`id`),
+//    UNIQUE KEY `udx_order_app` (`order_id`,`app`),
+//    KEY `idx_target_app` (`target`,`app`)
+//    ) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8 COMMENT='验证码 验证码表';
