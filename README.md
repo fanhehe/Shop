@@ -133,10 +133,10 @@
 
 ## 更新日志
 
-- 今日目标
+- 2019-07-17 :
 
-    1. 开始做前端站点，希望能支持上注册、登录页面。
-    2. 完成 `https://juejin.im/post/5d2b3f2d6fb9a07f091bd1d5` 系列第二篇。
+    1. 前端项目已完成基本架构。
+    2. 总零开始的Shop项目第二篇，已发[https://juejin.im/post/5d2deb5e6fb9a07eb74b70cf](https://juejin.im/post/5d2deb5e6fb9a07eb74b70cf)。
 
 - 2019-07-16 :
     
