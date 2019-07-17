@@ -2,11 +2,70 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="shortcut icon" href="/favicon.ico?v=123" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
+    <title>Shop</title>
+    <style type ="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+        /**
+         * []
+         * @param  {object} doc [document]
+         * @param  {object} win [window]
+         * @return {void}
+         */
+        (function (doc, win) {
+            var docEl = doc.documentElement;
+            var resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize';
+            var recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if (clientWidth > 750) {
+                    clientWidth = 750;
+                }
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                adjustRem(docEl, clientWidth);
+            };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+            recalc();
+            /**
+             * [adjustRem 自适应rem]
+             * @param  {object} docElE       [doc.documentElement]
+             * @param  {number} clientWidth [屏幕宽度]
+             * @return {void}
+             */
+            function adjustRem(docElE, clientWidth) {
+                if (!clientWidth || clientWidth >= 750) return;
+                var div = document.createElement('div');
+                div.style.width = '1.4rem';
+                div.style.height = '0';
+
+                if (!document.body) {
+                    return;
+                }
+
+                document.body.appendChild(div);
+                var expectWidth = 140 * clientWidth / 750;
+                var fitRadio = (div.clientWidth / expectWidth);
+                if (fitRadio > 1.1 || fitRadio < 0.9) {
+                    docElE.style.fontSize = 100 * (clientWidth / 750) / fitRadio + 'px';
+                }
+                document.body.removeChild(div);
+            }
+        })(document, window);
+    </script>
   </body>
 </html>
