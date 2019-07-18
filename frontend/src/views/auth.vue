@@ -1,10 +1,10 @@
 <template>
     <div class = "container">
         <header class = "header auth-header">
-
         </header>
         <main class = "header auth-main">
-            <section class = "auth-section auth-main-left"></section>
+            <section class = "auth-section auth-main-left">
+            </section>
             <section class = "auth-section auth-main-middle">
                 <section class = "main-form">
                     <el-form class = "auth-form">
@@ -13,20 +13,26 @@
                             v-model = "uid"
                             class = "auth-input"
                             prefix-icon = ""
-                            maxlength = 32
+                            minlength = "4"
+                            maxlength = "32"
                             placeholder = "用户ID/邮箱"
-                            autofocus
+                            autofocus = "true"
+                            tabindex = "1"
                             />
                         <el-input
                             type = "password"
                             v-model = "password"
                             class = "auth-input"
                             prefix-icon = ""
-                            max-length = 32
+                            minlength = "6"
+                            :show-password = "true"
+                            max-length = "32"
                             placeholder = "密码"
+                            tabindex = "2"
                             />
                         <div class = "auth-forget">
-                            <a href = "javascript:void(0)">忘记密码?</a>
+                            <div>{{ error }}</div>
+                            <a href = "javascript:void(0)" tabindex = "5">忘记密码?</a>
                         </div>
                         <div class = "auth-button-container">
                             <el-button
@@ -34,6 +40,7 @@
                                 :loading = "loadingRegister"
                                 :class = "{'button-active': !loginActive}"
                                 :disabled = "disableRegister"
+                                tabindex = "4"
                                 @click = "hanldeClickRegister">
                                 注册
                             </el-button>
@@ -41,8 +48,10 @@
                                 class = "auth-button"
                                 :loading = "loadingLogin"
                                 :disabled = "disableLogin"
+                                tabindex = "3"
                                 :class = "{'button-active': loginActive}"
                                 @click = "hanldeClickLogin">
+
                                 登录
                             </el-button>
                         </div>
@@ -59,7 +68,6 @@
             </section>
         </main>
         <footer class = "footer auth-footer">
-
         </footer>
     </div>
 </template>
@@ -67,6 +75,7 @@
 <script>
 
 import Vue from 'vue';
+import { mapState } from 'vuex';
 import { Form, Button, Input } from 'element-ui';
 
 Vue.component(Form.name, Form);
@@ -81,6 +90,7 @@ export default {
             login: 'login',
             register: 'register',
             currNav: 'register',
+            error: '',
             navList: ['login', 'register'],
             loadingLogin: false,
             disableLogin: false,
@@ -95,22 +105,29 @@ export default {
             }
         },
         hanldeClickLogin() {
-            this.loadingLogin = true;
-            this.disableRegister = true;
-            setTimeout(() => { this.loadingLogin = false; this.disableRegister = false }, 2000);
+            this.handleClickRegisterOrLogin(this.login);
         },
         hanldeClickRegister() {
-            this.disableLogin = true;
-            this.loadingRegister = true;
+            this.handleClickRegisterOrLogin(this.register);
+        },
+        handleClickRegisterOrLogin(auth) {
 
-            setTimeout(() => { this.loadingRegister = false; this.disableLogin = false; }, 2000);
+            this.loadingLogin = true;
+            this.disableRegister = true;
+
+            const data = { auth, uid: this.uid, password: this.password };
+            const final = () => { this.loadingLogin = false; this.disableRegister = false };
+
+            this.$store.dispatch({ type: `user_auth`, data: { final, ...data } });
         }
     },
     computed: {
+        ... mapState(['user']),
         loginActive() {
             return this.currNav === this.login;
         },
     },
+    mounted() {}
 };
 </script>
 
@@ -166,10 +183,6 @@ export default {
     padding: 0.5rem;
 }
 
-.auth-nav a.navActive {
-    color: red;
-}
-
 .main-form {
     height: 100%;
 }
@@ -204,10 +217,6 @@ export default {
     margin: 0.08rem auto 0;
 }
 
-.button-active {
-    color: red;
-}
-
 .auth-button {
     width: 2rem;
 }
@@ -219,6 +228,12 @@ a {
 
 a:hover {
     cursor: pointer;
+}
+
+@media screen and (max-width: 750px) {
+    .auth-main-right {
+        display: none;
+    }
 }
 
 </style>

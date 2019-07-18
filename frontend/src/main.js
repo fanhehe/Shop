@@ -4,8 +4,10 @@
 import 'whatwg-fetch'
 import Vue from 'vue';
 import App from './App';
+import Vuex from 'vuex';
 import routes from './routes';
 import Router from 'vue-router';
+import store from './vuex/store';
 
 import ElementUI from 'element-ui';
 
@@ -17,6 +19,7 @@ Vue.config.productionTip = false;
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
+    store: store,
     router: routes,
     components: { App },
     template: '<App/>',

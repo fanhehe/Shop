@@ -24,11 +24,11 @@ export default class HttpUtil {
 
     static async call(path, params = {}, headers = {}, options = {}, method = 'GET') {
 
-        const options = Object.assign({
+        options = Object.assign({
             mode: "cors",
             method: method,
             credentials: 'include',
-            headers: Object.assign({}, headers);
+            headers: Object.assign({}, headers),
         }, options);
 
         switch(method.toUpperCase()) {
@@ -49,8 +49,8 @@ export default class HttpUtil {
 
         return await new Promise((resolve, reject) => {
             fetch(`${this.getScheme()}${this.getEndpoint()}${path}`, options).then(async result => {
-                resolve(await result.text());
-            }).then(json => JSON.parse(json));
+                resolve(JSON.parse(await result.text()));
+            });
         });
     }
 }
