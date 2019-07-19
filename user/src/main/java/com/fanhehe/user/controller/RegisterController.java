@@ -19,9 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
 
-
-
 @RestController
+@CrossOrigin(value = "http://127.0.0.1:10009", allowCredentials = "true")
 public class RegisterController {
 
     @Value("${time-zone}")
