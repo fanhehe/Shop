@@ -2,11 +2,15 @@ package com.fanhehe.message;
 
 import tk.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+@RestController
 @SpringBootApplication
+@EnableAutoConfiguration
 //@MapperScan(basePackages= {"com.fanhehe.message.dao"})
 public class Application extends SpringBootServletInitializer{
 
