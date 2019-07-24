@@ -5,7 +5,7 @@
     <groupId>com.fanhehe.shop</groupId>
     <artifactId>shop</artifactId>
     <packaging>pom</packaging>
-t   <version>1.0</version>
+   <version>1.0</version>
     <name>shop.fanhehe</name>
     <url>http://shop.fanhehe.com</url>
 
