@@ -20,6 +20,7 @@
     <groupId>com.fanhehe.shop</groupId>
     <artifactId>message</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>message</name>
     <description>message</description>
 
