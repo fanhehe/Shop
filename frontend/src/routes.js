@@ -5,6 +5,7 @@ import About from '@/views/about';
 import Empty from '@/views/404';
 
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
