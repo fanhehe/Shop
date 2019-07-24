@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SaltController {
-    @RequestMapping(path = "/api/auth/", method = RequestMethod.GET)
+    @RequestMapping(path = "/api/auth/salt", method = RequestMethod.GET)
     public IResult getSalt() {
         return InvokeResult.failure("sssssss");
     }
