@@ -122,7 +122,7 @@ export default {
         }
     },
     computed: {
-        ... mapState(['user']),
+        ... mapState(['auth']),
         loginActive() {
             return this.currNav === this.login;
         },

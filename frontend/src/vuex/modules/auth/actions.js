@@ -1,4 +1,7 @@
+import Type from '@/utils/type';
+import Url from '@/vuex/common/url';
 import Backend from '@/services/backend';
+
 
 export default {
 
@@ -6,12 +9,12 @@ export default {
         const type = payload.type;
         const data = payload.data;
 
-        const result = await Backend.get('/api/user/register/email', {
+        const result = await Backend.get(Url.Auth.Register, {
             email: payload.uid,
             password: payload.password,
         });
 
-        if (data && data.final && typeof data.final === 'function') {
+        if (data && Type.isFunction(data.final)) {
             data.final();
         }
 
