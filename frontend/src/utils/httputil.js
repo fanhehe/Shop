@@ -37,6 +37,7 @@ export default class HttpUtil {
                 break;
             case 'POST':
                 options.body = qs.encode(params);
+                options.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
                 break;
             case 'JSON':
                 options.method = 'POST';
@@ -47,10 +48,36 @@ export default class HttpUtil {
                 throw new Error("使用了不支持的方法");
         }
 
-        return await new Promise((resolve, reject) => {
-            fetch(`${this.getScheme()}${this.getEndpoint()}${path}`, options).then(async result => {
-                resolve(JSON.parse(await result.text()));
-            });
+        return await Promise.race([this.makeRequestPromise(path, options), this.makeTimeoutPromise(5000)]);
+    }
+
+    static makeRequestPromise(path, options) {
+        return new Promise(resolve => {
+
+            const url = `${this.getScheme()}${this.getEndpoint()}${path}`;
+
+            fetch(url, options)
+                .then(async result => {
+                    resolve(JSON.parse(await result.text()));
+                })
+                .catch(err => (resolve({
+                    code: 500,
+                    message: '网络异常',
+                })));
         });
+    }
+
+    static makeTimeoutPromise(timeout) {
+        return new Promise((r, rj) => {
+            setTimeout(() => {
+                rj(timeout);
+            }, timeout);
+        }).catch(timeout => ({
+            code: 500,
+            message: '访问超时,请稍后再试',
+            data: {
+                timeout,
+            }
+        }));
     }
 }

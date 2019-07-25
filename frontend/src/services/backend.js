@@ -1,7 +1,13 @@
 import HttpUtil  from '@/utils/httputil';
+import Config from '@/config/';
 
 export default class Backend extends HttpUtil {
+
+    static getScheme() {
+        return Config.service.backend.scheme;
+    }
+
     static getEndpoint() {
-        return '127.0.0.1:10014';
+        return Config.service.backend.endpoint;
     }
 }

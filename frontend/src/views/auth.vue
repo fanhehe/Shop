@@ -15,43 +15,52 @@
                             prefix-icon = ""
                             minlength = "4"
                             maxlength = "32"
-                            placeholder = "用户ID/邮箱"
+                            placeholder = "邮箱/手机号"
                             autofocus = "true"
                             tabindex = "1"
+                            @blur = "hanldeUidBlur"
                             />
+                        <div
+                            class = "auth-send-captach"
+                            :class = "{ 'auth-send-captach-show': showSendCaptcha }"
+                            @click = "handleClickSendCaptcha"
+                            >发送验证码</div>
                         <el-input
-                            type = "password"
-                            v-model = "password"
+                            type = "text"
+                            v-model = "captcha"
                             class = "auth-input"
                             prefix-icon = ""
                             minlength = "6"
-                            :show-password = "true"
                             max-length = "32"
-                            placeholder = "密码"
+                            placeholder = "验证码"
                             tabindex = "2"
                             />
+                        <div class = "auth-err-message">{{ error }}</div>
                         <div class = "auth-forget">
-                            <div>{{ error }}</div>
                             <a href = "javascript:void(0)" tabindex = "5">忘记密码?</a>
                         </div>
                         <div class = "auth-button-container">
                             <el-button
+                                id = "TencentCaptcha"
                                 class = "auth-button"
+                                data-appid="2083161919"
+                                data-cbfn="tCaptchaCallback"
                                 :loading = "loadingRegister"
                                 :class = "{'button-active': !loginActive}"
                                 :disabled = "disableRegister"
                                 tabindex = "4"
-                                @click = "hanldeClickRegister">
+                                @click = "hanldeClickRegister"
+                                >
                                 注册
                             </el-button>
                             <el-button
+                                id = "auth-login"
                                 class = "auth-button"
                                 :loading = "loadingLogin"
                                 :disabled = "disableLogin"
                                 tabindex = "3"
                                 :class = "{'button-active': loginActive}"
                                 @click = "hanldeClickLogin">
-
                                 登录
                             </el-button>
                         </div>
@@ -76,7 +85,10 @@
 
 import Vue from 'vue';
 import { mapState } from 'vuex';
+import Url from '@/constants/url';
+import Backend from '@/services/backend';
 import { Form, Button, Input } from 'element-ui';
+
 
 Vue.component(Form.name, Form);
 Vue.component(Input.name, Input);
@@ -86,7 +98,7 @@ export default {
     data: () => {
         return {
             uid: '',
-            password: '',
+            captcha: '',
             login: 'login',
             register: 'register',
             currNav: 'register',
@@ -96,6 +108,8 @@ export default {
             disableLogin: false,
             loadingRegister: false,
             disableRegister: false,
+            tCaptchaScript: null,
+            showSendCaptcha: false,
         };
     },
     methods: {
@@ -112,13 +126,47 @@ export default {
         },
         handleClickRegisterOrLogin(auth) {
 
+            if (!(this.uid && this.captcha)) {
+                this.error = "请输入账号或验证码";
+                setTimeout(() => { this.error = ''; }, 2000);
+                return;
+            }
+
             this.loadingLogin = true;
             this.disableRegister = true;
 
-            const data = { auth, uid: this.uid, password: this.password };
-            const final = () => { this.loadingLogin = false; this.disableRegister = false };
+            const final = (error) => {
+                this.error = error || '';
+                this.loadingLogin = false;
+                this.disableRegister = false;
+            };
 
-            this.$store.dispatch({ type: `user_auth`, data: { final, ...data } });
+            const data = { auth, uid: this.uid, captcha: this.captcha };
+
+            this.$store.dispatch({ type: `register`, data: { final, ...data } });
+        },
+        tCaptchaCallback(res) {
+            // res（用户主动关闭验证码）= {ret: 2, ticket: null}
+            // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
+            if (res && res.ret === 0) {
+
+            }
+        },
+        hanldeUidBlur() {
+            if (this.uid) {
+                this.showSendCaptcha = true;
+            }
+        },
+        async handleClickSendCaptcha() {
+
+            if (this.uid) {
+                const result = await Backend.post(Url.Auth.Captcha, {
+                    target: this.uid,
+                });
+
+            } else {
+                this.error = "请输入正确的邮箱账号/手机号";
+            }
         }
     },
     computed: {
@@ -127,7 +175,24 @@ export default {
             return this.currNav === this.login;
         },
     },
-    mounted() {}
+    mounted() {},
+
+    created() {
+
+        if (this.tCaptchaScript == null) {
+            const url = 'https://ssl.captcha.qq.com/TCaptcha.js';
+
+            const script = this.tCaptchaScript = document.createElement('script');
+
+            script.src = url;
+
+            document.body.appendChild(script);
+        }
+    },
+    beforeDestroy() {
+        document.body.removeChild(this.tCaptchaScript);
+        this.tCaptchaScript = null;
+    }
 };
 </script>
 
@@ -194,7 +259,7 @@ export default {
     box-sizing: border-box;
 }
 
-.auth-input, .auth-button-container, .auth-forget {
+.auth-input, .auth-button-container, .auth-forget, .auth-send-captach, .auth-err-message {
     margin: auto;
     width: 4.6rem;
     display: block;
@@ -205,10 +270,30 @@ export default {
     margin: 0.4rem auto 0;
 }
 
+.auth-send-captach {
+    text-align: right;
+    padding: 0.08rem 0.08rem 0;
+    cursor: pointer;
+    color: transparent;
+}
+
+.auth-send-captach.auth-send-captach-show {
+    color: #00A1D6;
+}
+
+.auth-err-message {
+    color: red;
+    text-align: right;
+    height: 0.16rem;
+    line-height: 0.16rem;
+    padding: 0.06rem 0.08rem 0;
+}
+
 .auth-forget {
     color: #00a1d6;
     text-align: right;
-    margin: 0.3rem auto 0;
+    margin: 0.2rem auto 0;
+    padding: 0 0.08rem;
 }
 
 .auth-button-container {
