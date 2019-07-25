@@ -18,7 +18,7 @@ public class RegisterController {
         this.userService = userService;
     }
 
-    @RequestMapping(path = "/api/auth/code", method = RequestMethod.POST)
+    @RequestMapping(path = "/api/auth/captcha", method = RequestMethod.POST)
     public IResult captcha(
         @RequestParam(name = "target", defaultValue = "") String target
     ) {
@@ -35,7 +35,6 @@ public class RegisterController {
         Assert.notNull(target, "用户名不能为null");
         Assert.notNull(captcha, "验证码不能为null");
         Assert.notNull(password, "用户密码不能为null");
-
 
         return userService.doRegister(target, password, captcha);
     }
