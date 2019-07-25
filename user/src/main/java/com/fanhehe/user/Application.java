@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @SpringBootApplication
 //@MapperScan(basePackages= {"com.fanhehe.message.dao"})
-public class Application extends SpringBootServletInitializer{
+public class Application extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {

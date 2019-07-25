@@ -35,15 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity ws) {
-        ws.ignoring().
-                antMatchers(
-                        "/**/*.js",
-                        "/lang/*.json",
-                        "/**/*.css",
-                        "/**/*.js",
-                        "/**/*.map",
-                        "/**/*.html",
-                        "/**/*.png");
+//        ws.ignoring().
+//            antMatchers(
+//                "/**/*.js",
+//                "/lang/*.json",
+//                "/**/*.css",
+//                "/**/*.js",
+//                "/**/*.map",
+//                "/**/*.html",
+//                "/**/*.png");
     }
 
     @Override
@@ -53,23 +53,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //允许所有用户访问"/"和"/home"
-//        http.authorizeRequests()
-//                .antMatchers("/api/user/login").permitAll()
-//                //其他地址的访问均需验证权限
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                //退出登录后的默认url是"/login"
-//                .logoutSuccessUrl("/login")
-//                .permitAll();
-
+        http.authorizeRequests()
+            .anyRequest()
+            .permitAll();
+//
+        http
+            .csrf()
+                .disable();
 
         //解决中文乱码问题
 //        CharacterEncodingFilter filter = new CharacterEncodingFilter();

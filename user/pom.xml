@@ -50,7 +50,7 @@
         <dependency><!-- 设置tomcat只在编译和测试时运行 -->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+            <scope>${tomcatScope}</scope>
         </dependency>
 
 		<dependency>
@@ -112,6 +112,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
     <profiles>
         <profile>
             <id>dev</id>
@@ -119,18 +120,21 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <tomcatScope>compile</tomcatScope>
                 <activatedProperties>dev</activatedProperties>
             </properties>
         </profile>
         <profile>
             <id>test</id>
             <properties>
+                <tomcatScope>provided</tomcatScope>
                 <activatedProperties>test</activatedProperties>
             </properties>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
+                <tomcatScope>provided</tomcatScope>
                 <activatedProperties>prod</activatedProperties>
             </properties>
         </profile>
