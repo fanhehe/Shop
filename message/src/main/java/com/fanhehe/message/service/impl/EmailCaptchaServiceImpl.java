@@ -1,20 +1,28 @@
 package com.fanhehe.message.service.impl;
 
-import javax.validation.constraints.NotNull;
-import com.fanhehe.message.dao.CaptchaCodeDao;
 import com.fanhehe.message.util.*;
-import com.fanhehe.message.constant.BindEnum;
-import com.fanhehe.message.constant.CaptchaStatus;
-import com.fanhehe.message.constant.ReceiverType;
+
 import com.fanhehe.message.dto.Receiver;
 import com.fanhehe.message.dto.bind.Bind;
-import com.fanhehe.message.model.CaptchaCode;
+import com.fanhehe.message.dao.CaptchaCodeDao;
+
 import com.fanhehe.message.model.Message;
+import com.fanhehe.message.model.CaptchaCode;
+
+import com.fanhehe.message.constant.BindEnum;
+import com.fanhehe.message.constant.ReceiverType;
+import com.fanhehe.message.constant.CaptchaStatus;
+
 import com.fanhehe.message.service.BindService;
 import com.fanhehe.message.service.CaptchaService;
 import com.fanhehe.message.service.EmailMessageService;
+
 import com.fanhehe.util.result.IResult;
 import com.fanhehe.util.result.InvokeResult;
+import com.fanhehe.util.constant.response.MessageResponse;
+
+import javax.validation.constraints.NotNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,7 +60,7 @@ public class EmailCaptchaServiceImpl implements CaptchaService<CaptchaCode> {
         CaptchaCode overtime = captchaCodeDao.selectLatest(captchaCode.getApp(), captchaCode.getTarget());
 
         if (overtime != null && overtime.getOvertime() + overtime.getCreatedAt() > timestamp) {
-            return InvokeResult.failure("需要等待" + overtime.getOvertime() + "秒再发");
+            return InvokeResult.failure(MessageResponse.CAPTCHA_NEED_WAIT);
         }
 
         CaptchaCode result = captchaCodeDao.selectByAppAndOrderId(captchaCode.getApp(), captchaCode.getOrderId());
@@ -61,7 +69,7 @@ public class EmailCaptchaServiceImpl implements CaptchaService<CaptchaCode> {
             return InvokeResult.success();
         }
 
-        return InvokeResult.failure("已发送成功");
+        return InvokeResult.failure(MessageResponse.SEND_MESSAGE_FINISHED);
     }
 
     @Override
@@ -83,14 +91,14 @@ public class EmailCaptchaServiceImpl implements CaptchaService<CaptchaCode> {
             if (bindIResult.isSuccess() && bindIResult.getData() != null) {
                 target = bindIResult.getData().getOpenid();
             } else if (bindIResult.isSuccess()) {
-                return InvokeResult.failure("用户未绑定邮箱");
+                return InvokeResult.failure(MessageResponse.USER_BIND_NONE_EMAIL);
             } else {
-                return InvokeResult.failure("未知异常");
+                return InvokeResult.failure(MessageResponse.ERROR);
             }
         }
 
         if (!Regexp.isEmail(target)) {
-            return InvokeResult.failure("非法邮箱");
+            return InvokeResult.failure(MessageResponse.INVAID_EMAIL);
         }
 
         // 60s 过期时间
@@ -128,7 +136,7 @@ public class EmailCaptchaServiceImpl implements CaptchaService<CaptchaCode> {
                 CaptchaStatus.FAILURE.getValue()
         );
 
-        return InvokeResult.failure("发送消息失败");
+        return InvokeResult.failure(MessageResponse.ERROR);
     }
 
     @Override
@@ -138,17 +146,17 @@ public class EmailCaptchaServiceImpl implements CaptchaService<CaptchaCode> {
         CaptchaCode result = captchaCodeDao.selectLatest(captchaCode.getApp(), receiver.getTarget());
 
         if (result == null) {
-            return  InvokeResult.failure("验证码不正确");
+            return  InvokeResult.failure(MessageResponse.CAPTCHA_WRONG);
         }
 
         if (result.getOvertime() + result.getCreatedAt() < Time.makeUnixTimestamp()) {
-            return InvokeResult.failure("验证码已失效");
+            return InvokeResult.failure(MessageResponse.CAPTCHA_EXPIRED);
         }
 
         if (result.getCode().equals(captchaCode.getCode())) {
             return InvokeResult.success(result);
         }
 
-        return InvokeResult.failure("验证码不正确");
+        return InvokeResult.failure(MessageResponse.CAPTCHA_WRONG);
     }
 }

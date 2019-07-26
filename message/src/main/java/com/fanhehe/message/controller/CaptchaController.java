@@ -5,8 +5,11 @@ import com.fanhehe.message.dto.Receiver;
 import com.fanhehe.message.model.CaptchaCode;
 import com.fanhehe.message.constant.ReceiverType;
 import com.fanhehe.message.service.CaptchaService;
+
 import com.fanhehe.util.result.IResult;
 import com.fanhehe.util.result.InvokeResult;
+import com.fanhehe.util.constant.response.MessageResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,11 +35,11 @@ public class CaptchaController {
             @RequestParam(defaultValue = "") String orderId
     ) {
         if (!Regexp.isEmail(email)) {
-            return InvokeResult.failure("非法email");
+            return InvokeResult.failure(MessageResponse.INVAID_EMAIL);
         }
 
         if (app == null || orderId == null || "".equals(app) || "".equals(orderId)) {
-            return InvokeResult.failure("app / orderId 不能为空");
+            return InvokeResult.failure(MessageResponse.EMPTY_PARAMS);
         }
 
         Receiver receiver = new Receiver();

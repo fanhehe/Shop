@@ -1,7 +1,9 @@
 package com.fanhehe.message.service.impl;
 
+
 import java.util.HashMap;
 import com.fanhehe.message.util.Time;
+import com.fanhehe.util.constant.response.MessageResponse;
 import com.fanhehe.util.result.IResult;
 import com.fanhehe.util.result.InvokeResult;
 import com.fanhehe.message.constant.MessageCategory;
@@ -17,7 +19,6 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
 
 @Service("Impl.EmailMessageService")
 public class EmailMessageServiceImpl implements EmailMessageService {
@@ -72,11 +73,11 @@ public class EmailMessageServiceImpl implements EmailMessageService {
             int status = record.getStatus();
 
             if (status == MessageStatus.INIT.getValue()) {
-                return InvokeResult.failure("消息正在处理中");
+                return InvokeResult.failure(MessageResponse.SEND_MESSAGE_SENDING);
             }
 
             if (status == MessageStatus.SUCCESS.getValue()) {
-                return InvokeResult.failure("消息已发成功");
+                return InvokeResult.failure(MessageResponse.SEND_MESSAGE_FINISHED);
             }
         }
 
@@ -107,7 +108,7 @@ public class EmailMessageServiceImpl implements EmailMessageService {
                         MessageStatus.SENDING.getValue());
 
         if (rows != 1) {
-            return InvokeResult.failure("更新行数不为1");
+            return InvokeResult.failure(MessageResponse.SEND_MESSAGE_UPDATE_ROW_NOT_ONE);
         }
 
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
@@ -155,6 +156,6 @@ public class EmailMessageServiceImpl implements EmailMessageService {
             String orderId,
             HashMap<String, String> property
     ) {
-        return InvokeResult.failure("邮箱不支持本方法");
+        return InvokeResult.failure(MessageResponse.SEND_MESSAGE_NOT_SUPPORT);
     }
 }
