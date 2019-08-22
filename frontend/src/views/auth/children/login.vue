@@ -74,6 +74,9 @@
                 </section>
             </section>
             <section class = "auth-section auth-main-right">
+                <div class = "auth-main-right-img-container">
+                    <img :src="desc" />
+                </div>
             </section>
         </main>
         <footer class = "footer auth-footer">
@@ -88,7 +91,7 @@ import { mapState } from 'vuex';
 import Url from '@/constants/url';
 import Backend from '@/services/backend';
 import { Form, Button, Input } from 'element-ui';
-
+import desc from '../../../../static/images/auth/desc.png';
 
 Vue.component(Form.name, Form);
 Vue.component(Input.name, Input);
@@ -99,6 +102,7 @@ export default {
         return {
             uid: '',
             captcha: '',
+            desc: desc,
             login: 'login',
             register: 'register',
             currNav: 'register',
@@ -232,7 +236,39 @@ export default {
 }
 
 .auth-main-right {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
     flex: 1 1 2rem;
+    margin-left: 0.8rem;
+}
+
+.auth-main-right-img-container {
+    width: 3.2rem;
+    height: 3.2rem;
+    box-sizing: border-box;
+}
+
+.auth-main-right-img-container:after {
+    content: "F";
+    font-size: 2rem;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    order: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: serif;
+}
+
+.auth-main-right-img-container img {
+    width: 100%;
+    height: 100%;
 }
 
 .auth-nav {
